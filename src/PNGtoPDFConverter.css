@@ -1,0 +1,125 @@
+/* CSS for PNG to PDF Converter React component */
+
+#image-container {
+    width: 100%;
+    height: auto;
+    text-align: center;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  /* Default image size */
+.responsive-image {
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* Adjust image size for smaller screens (e.g., mobile devices) */
+  @media screen and (max-width: 768px) {
+    .responsive-image {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  
+  /* PNGtoPDFConverter.css */
+
+/* Center the card */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Center the card horizontally */
+  padding: 20px;
+  max-width: 100%; /* Make the card super responsive */
+  background-color: #fff;
+}
+
+/* Card header styles */
+.card-header {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.card-header h1 {
+  margin: 0;
+}
+
+/* Card body styles */
+.card-body {
+  padding: 10px;
+}
+
+/* Drop area styles */
+.drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Adjust the drop area and responsive image sizes for smaller screens */
+@media screen and (max-width: 768px) {
+  .drop-area {
+    width: 100%; /* Expand the drop area horizontally */
+  }
+  .responsive-image {
+    width: 100%; /* Expand the images horizontally */
+    max-height: none; /* Remove max-height to allow images to expand vertically */
+    object-fit: contain; /* Maintain aspect ratio while expanding */
+  }
+}
+
+/* File label styles */
+.file-label {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Button styles */
+button {
+  display: block;
+  margin: 10px auto; /* Center the button horizontally */
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add hover effect to the button */
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Progress bar styles */
+.progress-bar-container {
+  margin: 0 auto; /* Center the progress bar container horizontally */
+  width: 100%; /* Make the progress bar container super responsive */
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 10px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 10px;
+  background-color: #4caf50;
+  transition: width 1s ease; /* Add animation here */
+  text-align: center;
+  line-height: 20px;
+  color: #fff;
+}
+
+.progress-bar.complete {
+  background-color: #4caf50; /* Change color when complete */
+}
