@@ -110,9 +110,11 @@ function PNGtoPDFConverter() {
   };
 
   return (
-    <div className="card">
-      <div className="card-header">
-        <h1>PNG to PDF Converter</h1>
+    <div className="card" style={{ backgroundColor: "#f0f0f0" }}>
+      <div className="card-header" style={{ backgroundColor: "#3498db" }}>
+        <h1 className="text-center" style={{ color: "#ffffff" }}>
+          PNG to PDF Converter
+        </h1>
       </div>
       <div className="card-body">
         <div
@@ -139,8 +141,17 @@ function PNGtoPDFConverter() {
               className="responsive-image"
             />
           )}
-          <p className="highlighted-text">Drag and drop images here or</p>
-          <label className="file-label highlighted-text" htmlFor="imageInput">
+          <p
+            className="text-center highlighted-text"
+            style={{ color: "#3498db" }}
+          >
+            Drag and drop images here or
+          </p>
+          <label
+            className="text-center file-label highlighted-text"
+            htmlFor="imageInput"
+            style={{ color: "#3498db" }}
+          >
             Select images from your device
           </label>
           <input
@@ -152,10 +163,19 @@ function PNGtoPDFConverter() {
             onChange={handleImageUpload}
           />
         </div>
-        <button onClick={convertToPDF}>Convert to PDF</button>
+        <button
+          className="btn btn-primary"
+          style={{ backgroundColor: "#3498db", color: "#ffffff" }}
+          onClick={convertToPDF}
+        >
+          Convert to PDF
+        </button>
         {progress >= 0 && (
           <div className="progress-bar-container">
-            <div className="progress-bar" style={{ width: `${progress}%` }}>
+            <div
+              className="progress-bar"
+              style={{ width: `${progress}%`, backgroundColor: "#3498db" }}
+            >
               {`${progress}%`}
             </div>
           </div>
