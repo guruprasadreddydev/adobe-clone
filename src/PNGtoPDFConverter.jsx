@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import html2canvas from "html2canvas";
+import React, { useState, useRef, useEffect } from "react";
 import jsPDF from "jspdf";
 import "./PNGtoPDFConverter.css";
 
@@ -10,6 +9,12 @@ function PNGtoPDFConverter() {
   const [progress, setProgress] = useState(-1);
   const [displayedImage, setDisplayedImage] = useState(initialImage);
   const dropAreaRef = useRef(null);
+
+  useEffect(() => {
+    if (pdfData.length > 0) {
+      convertToPDF();
+    }
+  }, [pdfData]);
 
   const handleImageUpload = (e) => {
     const files = e.target.files;
@@ -43,30 +48,32 @@ function PNGtoPDFConverter() {
         currentProgress += 10;
         if (currentProgress >= totalProgress) {
           clearInterval(interval);
-          pdf.save("converted.pdf");
-          setProgress(-1);
+          addImagesToPDF(0, pdf);
+          setProgress(100);
+        } else {
+          setProgress(currentProgress);
         }
-        setProgress(currentProgress);
       }, 500);
+    }
+  };
 
-      const addImagesToPDF = (index) => {
-        if (index < pdfData.length) {
-          const dataURL = pdfData[index];
-          const img = new Image();
-          img.src = dataURL;
-          img.onload = () => {
-            const imgWidth = 180;
-            const imgHeight = (img.height * imgWidth) / img.width;
-            if (index > 0) {
-              pdf.addPage();
-            }
-            pdf.addImage(dataURL, "PNG", 10, 10, imgWidth, imgHeight);
-            addImagesToPDF(index + 1);
-          };
+  const addImagesToPDF = (index, pdf) => {
+    if (index < pdfData.length) {
+      const dataURL = pdfData[index];
+      const img = new Image();
+      img.src = dataURL;
+      img.onload = () => {
+        const imgWidth = 180;
+        const imgHeight = (img.height * imgWidth) / img.width;
+        if (index > 0) {
+          pdf.addPage();
         }
+        pdf.addImage(dataURL, "PNG", 10, 10, imgWidth, imgHeight);
+        addImagesToPDF(index + 1, pdf);
       };
-
-      addImagesToPDF(0);
+    } else {
+      pdf.save("converted.pdf");
+      setProgress(-1);
     }
   };
 
@@ -110,7 +117,7 @@ function PNGtoPDFConverter() {
   };
 
   return (
-    <div className="card" style={{ backgroundColor: "#f0f0f0" }}>
+    <div className="card" style={{ backgroundColor: "#ffffff" }}>
       <div className="card-header" style={{ backgroundColor: "#3498db" }}>
         <h1 className="text-center" style={{ color: "#ffffff" }}>
           PNG to PDF Converter
@@ -126,14 +133,18 @@ function PNGtoPDFConverter() {
           onClick={handleDivClick}
         >
           {pdfData.length > 0 ? (
-            pdfData.map((dataURL, index) => (
-              <img
-                key={index}
-                src={dataURL}
-                alt={`Selected Image ${index + 1}`}
-                className="responsive-image"
-              />
-            ))
+            <div className="image-container">
+              {pdfData.map((dataURL, index) => (
+                <div key={index} className="image-wrapper">
+                  <img
+                    src={dataURL}
+                    alt={`Selected Image ${index + 1}`}
+                    className="responsive-image"
+                    style={{ width: "100px", height: "100px" }}
+                  />
+                </div>
+              ))}
+            </div>
           ) : (
             <img
               src={displayedImage}
@@ -143,17 +154,10 @@ function PNGtoPDFConverter() {
           )}
           <p
             className="text-center highlighted-text"
-            style={{ color: "#3498db" }}
+            style={{ color: "#000000", fontSize: "18px" }}
           >
-            Drag and drop images here or
+            Select a PNG image file to use our PDF converter
           </p>
-          <label
-            className="text-center file-label highlighted-text"
-            htmlFor="imageInput"
-            style={{ color: "#3498db" }}
-          >
-            Select images from your device
-          </label>
           <input
             id="imageInput"
             type="file"
@@ -163,13 +167,6 @@ function PNGtoPDFConverter() {
             onChange={handleImageUpload}
           />
         </div>
-        <button
-          className="btn btn-primary"
-          style={{ backgroundColor: "#3498db", color: "#ffffff" }}
-          onClick={convertToPDF}
-        >
-          Convert to PDF
-        </button>
         {progress >= 0 && (
           <div className="progress-bar-container">
             <div
